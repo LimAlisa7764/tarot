@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Карта дня Таро</title>
+  <script src="https://telegram.org"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(180deg, #1a1025 0%, #2d1b4e 100%);
+      color: #ffffff;
+      text-align: center;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    h1 { font-size: 24px; margin-bottom: 10px; color: #f3d078; }
+    p.subtitle { font-size: 15px; color: #cbbde2; margin-bottom: 25px; }
+    .cards-grid {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+    .card {
+      width: 90px;
+      height: 145px;
+      background: linear-gradient(135deg, #4b2a7b, #2b1449);
+      border: 2px solid #f3d078;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+      transition: transform 0.3s;
+    }
+    .card:hover { transform: translateY(-6px); }
+    .result-box {
+      display: none;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid #f3d078;
+      border-radius: 16px;
+      padding: 20px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .card-emoji { font-size: 50px; margin-bottom: 10px; }
+    .card-name { font-size: 22px; font-weight: bold; color: #f3d078; margin-bottom: 10px; }
+    .card-desc { font-size: 15px; line-height: 1.5; color: #f0eaf8; }
+  </style>
+</head>
+<body>
+
+  <h1>✨ Карта дня</h1>
+  <p class="subtitle" id="instruction">Сосредоточьтесь на своем дне и выберите одну из карт</p>
+
+  <div class="cards-grid" id="deck">
+    <div class="card" onclick="pickCard()">🔮</div>
+    <div class="card" onclick="pickCard()">🌙</div>
+    <div class="card" onclick="pickCard()">⭐</div>
+  </div>
+
+  <div class="result-box" id="result">
+    <div class="card-emoji" id="res-emoji"></div>
+    <div class="card-name" id="res-name"></div>
+    <div class="card-desc" id="res-desc"></div>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    const cards = [
+      { name: "Шут (0)", emoji: "🃏", desc: "Сегодня день новых начинаний и легкости. Не бойтесь сделать шаг в неизвестность — вселенная поддержит ваши смелые идеи." },
+      { name: "Маг (I)", emoji: "🪄", desc: "У вас есть все ресурсы, чтобы добиться цели. Берите инициативу в свои руки: сегодня ваши слова и действия имеют особую силу." },
+      { name: "Верховная Жрица (II)", emoji: "🌙", desc: "Прислушайтесь к своей интуиции. Не торопитесь с выводами — ответы придут сами, если вы сохраните спокойствие и наблюдательность." },
+      { name: "Императрица (III)", emoji: "👑", desc: "День гармонии, заботы о себе и приятных плодов. Уделите время творчеству, красоте или близким людям." },
+      { name: "Колесо Фортуны (X)", emoji: "🎡", desc: "Ожидайте приятный поворот событий. Удача на вашей стороне — будьте открыты неожиданным встречам и предложениям." },
+      { name: "Солнце (XIX)", emoji: "☀️", desc: "Один из лучших дней! Вас ждет ясность, радость, успех в делах и прилив жизненной энергии." }
+    ];
+
+    function pickCard() {
+      const randomCard = cards[Math.floor(Math.random() * cards.length)];
+      document.getElementById('deck').style.display = 'none';
+      document.getElementById('instruction').innerText = 'Ваша карта на сегодня:';
+      document.getElementById('res-emoji').innerText = randomCard.emoji;
+      document.getElementById('res-name').innerText = randomCard.name;
+      document.getElementById('res-desc').innerText = randomCard.desc;
+      document.getElementById('result').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
